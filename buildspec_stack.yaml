@@ -8,6 +8,7 @@ phases:
     commands: 
       - 'npm run build'
       - 'npm run cdk synth -- -o dist'
+      - 'ls'
 
 artifacts: 
   base-directory: 'cdk.out'
