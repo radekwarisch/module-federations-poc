@@ -11,6 +11,6 @@ phases:
       - 'ls'
 
 artifacts: 
-  base-directory: 'cdk.out'
+  base-directory: 'dist'
   files: 
     - 'ModuleFederationsPocStack.template.json'
