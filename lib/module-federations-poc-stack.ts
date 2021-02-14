@@ -73,12 +73,12 @@ export class ModuleFederationsPocStack extends Stack {
         {
           stageName: 'Deploy',
           actions: [
-            new S3DeployAction({
-              actionName: "Deploy",
-              runOrder: 1,
-              input: s3BuildOutput,
-              bucket: bucket,
-            }),
+            // new S3DeployAction({
+            //   actionName: "Deploy",
+            //   runOrder: 1,
+            //   input: s3BuildOutput,
+            //   bucket: bucket,
+            // }),
             new CloudFormationCreateUpdateStackAction({
               actionName: 'CloudFormationCreateUpdateStackAction',
               templatePath: cdkBuildOutput.atPath('ModuleFederationsPocStack.template.json'),
