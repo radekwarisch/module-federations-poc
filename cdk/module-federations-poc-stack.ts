@@ -22,7 +22,7 @@ export class ModuleFederationsPocStack extends Stack {
 
     const homeBucket = Bucket.fromBucketName(this, "WebsiteHomeBucket", 'rwarisch-module-federation-home');
     const searchBucket = Bucket.fromBucketName(this, "WebsiteSearchBucket", 'rwarisch-module-federation-search');
-    const profileBucket = Bucket.fromBucketName(this, "WebsiteProfileBucket", 'rwarisch-module-federations-profile');
+    const profileBucket = Bucket.fromBucketName(this, "WebsiteProfileBucket", 'rwarisch-module-federation-profile');
 
     const githubToken = process.env.GITHUB_TOKEN || "";
 
