@@ -10,8 +10,8 @@ export class ModuleFederationsPocStack extends Stack {
   constructor(scope: App, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    const githubToken = process.env.GITHUB_TOKEN || StringParameter.valueForSecureStringParameter(
-      this, 'cdk_github_access_token', 1); 
+    const githubToken = process.env.GITHUB_TOKEN || StringParameter.valueForStringParameter(
+      this, 'cdk_github_public_token'); 
     
     const sourceOutput = new Artifact("SrcOutput");
     const cdkBuildOutput = new Artifact('CdkBuildOutput');
