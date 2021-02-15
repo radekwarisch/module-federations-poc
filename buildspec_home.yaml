@@ -9,6 +9,6 @@ phases:
       - 'yarn build:home --production'
 
 artifacts: 
-  base-directory: 'packages/home'
+  base-directory: 'packages/home/dist'
   files: 
     - '*'

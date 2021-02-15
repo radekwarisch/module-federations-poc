@@ -9,6 +9,6 @@ phases:
       - 'yarn build:profile --production'
 
 artifacts: 
-  base-directory: 'packages/profile'
+  base-directory: 'packages/profile/dist'
   files: 
     - '*'

@@ -9,6 +9,6 @@ phases:
       - 'yarn build:search --production'
 
 artifacts: 
-  base-directory: 'packages/search'
+  base-directory: 'packages/search/dist'
   files: 
     - '*'
