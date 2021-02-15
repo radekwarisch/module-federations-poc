@@ -3,10 +3,10 @@ version: '0.2'
 phases:
   install:
     commands:
-      - 'npm install'
+      - 'yarn'
   build: 
     commands: 
-      - 'npm run build:search --production'
+      - 'yarn build:search --production'
 
 artifacts: 
   base-directory: 'packages/search'

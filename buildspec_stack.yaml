@@ -3,11 +3,11 @@ version: '0.2'
 phases:
   install:
     commands:
-      - 'npm install'
+      - 'yarn'
   build: 
     commands: 
-      - 'npm run compile'
-      - 'npm run cdk synth -- -o dist'
+      - 'yarn compile'
+      - 'yarn cdk synth -- -o dist'
 
 artifacts: 
   base-directory: 'dist'
