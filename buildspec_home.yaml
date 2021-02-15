@@ -6,10 +6,9 @@ phases:
       - 'npm install'
   build: 
     commands: 
-      - 'ls'
-      - 'npm install'
+      - 'npm run build:home --production'
 
 artifacts: 
-  base-directory: '.'
+  base-directory: 'packages/home'
   files: 
-    - 'package.json'
+    - '*'

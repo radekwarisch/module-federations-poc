@@ -6,9 +6,8 @@ phases:
       - 'npm install'
   build: 
     commands: 
-      - 'npm run build'
+      - 'npm run compile'
       - 'npm run cdk synth -- -o dist'
-      - 'ls'
 
 artifacts: 
   base-directory: 'dist'
