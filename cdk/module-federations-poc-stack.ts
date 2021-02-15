@@ -4,14 +4,14 @@ import { Bucket } from "@aws-cdk/aws-s3";
 import {PipelineProject, BuildSpec, LinuxBuildImage} from '@aws-cdk/aws-codebuild';
 import {Artifact, Pipeline} from '@aws-cdk/aws-codepipeline';
 import {GitHubSourceAction, CodeBuildAction, S3DeployAction, GitHubTrigger, CloudFormationCreateUpdateStackAction} from '@aws-cdk/aws-codepipeline-actions';
+import {StringParameter} from '@aws-cdk/aws-ssm';
 
 export class ModuleFederationsPocStack extends Stack {
   constructor(scope: App, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    if (!process.env.GITHUB_TOKEN) {
-      console.log("No Github Token present");
-    }
+    const githubToken = process.env.GITHUB_TOKEN || StringParameter.valueForSecureStringParameter(
+      this, 'cdk_github_access_token', 1); 
     
     const sourceOutput = new Artifact("SrcOutput");
     const cdkBuildOutput = new Artifact('CdkBuildOutput');
@@ -23,8 +23,6 @@ export class ModuleFederationsPocStack extends Stack {
     const homeBucket = Bucket.fromBucketName(this, "WebsiteHomeBucket", 'rwarisch-module-federation-home');
     const searchBucket = Bucket.fromBucketName(this, "WebsiteSearchBucket", 'rwarisch-module-federation-search');
     const profileBucket = Bucket.fromBucketName(this, "WebsiteProfileBucket", 'rwarisch-module-federation-profile');
-
-    const githubToken = process.env.GITHUB_TOKEN || "";
 
     const cdkBuild = new PipelineProject(this, 'CdkBuild', {
       buildSpec: BuildSpec.fromSourceFilename('buildspec_stack.yaml'),
@@ -124,12 +122,13 @@ export class ModuleFederationsPocStack extends Stack {
               input: s3SearchBuildOutput,
               bucket: searchBucket,
             }),
-            // new CloudFormationCreateUpdateStackAction({
-            //   actionName: 'ModuleFederationsPocStackUpdate',
-            //   templatePath: cdkBuildOutput.atPath('ModuleFederationsPocStack.template.json'),
-            //   stackName: 'ModuleFederationsPocStack',
-            //   adminPermissions: true
-            // }),
+            new CloudFormationCreateUpdateStackAction({
+              actionName: 'ModuleFederationsPocStackUpdate',
+              templatePath: cdkBuildOutput.atPath('ModuleFederationsPocStack.template.json'),
+              stackName: 'ModuleFederationsPocStack',
+              adminPermissions: true,
+              runOrder: 2
+            }),
           ],
         },
       ],
