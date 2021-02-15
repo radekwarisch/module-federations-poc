@@ -20,9 +20,9 @@ export class ModuleFederationsPocStack extends Stack {
     const s3SearchBuildOutput = new Artifact('S3SearchBuildOutput');
     const s3ProfileBuildOutput = new Artifact('S3ProfileBuildOutput');
 
-    const homeBucket = Bucket.fromBucketName(this, "WebsiteBucket", 'rwarisch-module-federation-home');
-    const searchBucket = Bucket.fromBucketName(this, "WebsiteBucket", 'rwarisch-module-federation-search');
-    const profileBucket = Bucket.fromBucketName(this, "WebsiteBucket", 'rwarisch-module-federations-profile');
+    const homeBucket = Bucket.fromBucketName(this, "WebsiteHomeBucket", 'rwarisch-module-federation-home');
+    const searchBucket = Bucket.fromBucketName(this, "WebsiteSearchBucket", 'rwarisch-module-federation-search');
+    const profileBucket = Bucket.fromBucketName(this, "WebsiteProfileBucket", 'rwarisch-module-federations-profile');
 
     const githubToken = process.env.GITHUB_TOKEN || "";
 
@@ -33,7 +33,7 @@ export class ModuleFederationsPocStack extends Stack {
       },
     });
 
-    const s3HomeBuild = new PipelineProject(this, "ModuleFederationPocProject", {
+    const s3HomeBuild = new PipelineProject(this, "ModuleFederationPocHomeProject", {
       buildSpec: BuildSpec.fromSourceFilename('buildspec_home.yaml'),
       
       environment: {
@@ -41,7 +41,7 @@ export class ModuleFederationsPocStack extends Stack {
       }
     });
 
-    const s3ProfileBuild = new PipelineProject(this, "ModuleFederationPocProject", {
+    const s3ProfileBuild = new PipelineProject(this, "ModuleFederationPocProfileProject", {
       buildSpec: BuildSpec.fromSourceFilename('buildspec_profile.yaml'),
       
       environment: {
@@ -49,7 +49,7 @@ export class ModuleFederationsPocStack extends Stack {
       }
     });
 
-    const s3SearchBuild = new PipelineProject(this, "ModuleFederationPocProject", {
+    const s3SearchBuild = new PipelineProject(this, "ModuleFederationPocSearchProject", {
       buildSpec: BuildSpec.fromSourceFilename('buildspec_search.yaml'),
       
       environment: {
@@ -107,19 +107,19 @@ export class ModuleFederationsPocStack extends Stack {
           stageName: 'Deploy',
           actions: [
             new S3DeployAction({
-              actionName: "Deploy",
+              actionName: "DeployHome",
               runOrder: 1,
               input: s3HomeBuildOutput,
               bucket: homeBucket,
             }),
             new S3DeployAction({
-              actionName: "Deploy",
+              actionName: "DeployProfile",
               runOrder: 1,
               input: s3ProfileBuildOutput,
               bucket: profileBucket,
             }),
             new S3DeployAction({
-              actionName: "Deploy",
+              actionName: "DeploySearch",
               runOrder: 1,
               input: s3SearchBuildOutput,
               bucket: searchBucket,
